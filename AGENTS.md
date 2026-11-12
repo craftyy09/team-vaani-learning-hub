@@ -28,3 +28,7 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+- Structure: pages in src/routes, shared UI in src/components/{layout,common}, roles in src/lib/roles.ts, languages in src/lib/languages.ts — keeps features modular.
+- AI services (speech, translation, TTS) are interfaces in src/lib/ai that throw until a real provider is wired — never fake AI output.
+- Student class assignment is teacher-controlled; enforce server-side (RLS) when the backend is added, never trust the client.
