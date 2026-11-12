@@ -3,37 +3,28 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/common/Logo";
 import { Button } from "@/components/ui/button";
-
-const links = [
-  { to: "/teacher", label: "Teacher" },
-  { to: "/student", label: "Student" },
-  { to: "/admin", label: "Admin" },
-] as const;
+import { MobileNav } from "./MobileNav";
+import { NAV_LINKS } from "./nav";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <Logo />
-        <nav className="hidden items-center gap-6 md:flex" aria-label="Main">
-          {links.map((l) => (
-            <Link key={l.to} to={l.to} className="text-sm text-muted-foreground hover:text-foreground" activeProps={{ className: "text-foreground font-semibold" }}>{l.label}</Link>
+        <nav className="hidden items-center gap-1 md:flex" aria-label="Main">
+          {NAV_LINKS.map((l) => (
+            <Link key={l.to} to={l.to} className="rounded-lg px-3 py-2 text-sm text-muted-foreground transition hover:bg-muted hover:text-foreground" activeProps={{ className: "text-foreground font-semibold bg-muted" }}>{l.label}</Link>
           ))}
+          <span className="mx-2 h-5 w-px bg-border" aria-hidden />
           <Button asChild variant="ghost" size="sm"><Link to="/login">Log in</Link></Button>
           <Button asChild size="sm"><Link to="/register">Get started</Link></Button>
         </nav>
-        <button className="md:hidden" aria-label="Toggle menu" aria-expanded={open} onClick={() => setOpen(!open)}>
+        <button className="rounded-lg p-2 hover:bg-muted md:hidden" aria-label="Toggle menu" aria-expanded={open} onClick={() => setOpen(!open)}>
           {open ? <X /> : <Menu />}
         </button>
       </div>
-      {open && (
-        <nav className="flex flex-col gap-3 border-t border-border px-4 py-4 md:hidden" aria-label="Mobile">
-          {links.map((l) => <Link key={l.to} to={l.to} onClick={() => setOpen(false)}>{l.label}</Link>)}
-          <Link to="/login" onClick={() => setOpen(false)}>Log in</Link>
-          <Button asChild><Link to="/register" onClick={() => setOpen(false)}>Get started</Link></Button>
-        </nav>
-      )}
+      {open && <MobileNav onNavigate={() => setOpen(false)} />}
     </header>
   );
 }
