@@ -3,12 +3,12 @@ import { StatusBadge } from "./StatusBadge";
 export function SectionCard({ id, title, description, status = "soon", children, className = "" }: { id?: string; title: string; description?: string; status?: "soon" | "preview" | "teacher" | "off"; children?: ReactNode; className?: string }) {
   return (
     <section id={id} className={`scroll-mt-24 rounded-2xl border border-border bg-card p-6 ${className}`}>
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
+      <div>
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 className="text-xl font-semibold">{title}</h2>
-          {description && <p className="mt-1 text-sm text-muted-foreground">{description}</p>}
+          <StatusBadge status={status} />
         </div>
-        <StatusBadge status={status} />
+        {description && <p className="mt-1 text-sm text-muted-foreground">{description}</p>}
       </div>
       {children && <div className="mt-5">{children}</div>}
     </section>

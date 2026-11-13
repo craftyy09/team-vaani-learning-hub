@@ -12,11 +12,14 @@ export function DashboardSidebar({ items, role }: { items: SidebarItem[]; role: 
           ))}
         </ul>
       </aside>
-      <nav className="-mx-4 mb-6 overflow-x-auto px-4 lg:hidden" aria-label={`${role} sections`}>
-        <ul className="flex w-max gap-2">
-          {items.map((i) => <li key={i.id}><a href={`#${i.id}`} className="flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-sm"><i.icon className="h-3.5 w-3.5" />{i.label}</a></li>)}
-        </ul>
-      </nav>
+      <div className="relative -mx-4 mb-6 lg:hidden">
+        <nav className="overflow-x-auto px-4" aria-label={`${role} sections`}>
+          <ul className="flex w-max gap-2">
+            {items.map((i) => <li key={i.id}><a href={`#${i.id}`} className="flex min-h-11 items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-sm"><i.icon className="h-3.5 w-3.5" />{i.label}</a></li>)}
+          </ul>
+        </nav>
+        <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-background to-transparent" />
+      </div>
     </>
   );
 }
