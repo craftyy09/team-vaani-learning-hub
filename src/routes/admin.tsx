@@ -20,7 +20,7 @@ const nav = [
 function Page() {
   return (
     <DashboardShell role="Admin" title="Platform overview" intro={D} nav={nav}>
-      <div id="overview" className="grid scroll-mt-24 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div id="overview" className="grid scroll-mt-24 grid-cols-2 gap-4 xl:grid-cols-4">
         <StatCard icon={Presentation} label="Teachers" /><StatCard icon={GraduationCap} label="Students" />
         <StatCard icon={School} label="Classes" /><StatCard icon={Building2} label="Schools" />
       </div>

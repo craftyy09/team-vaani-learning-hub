@@ -20,7 +20,7 @@ const nav = [
 function Page() {
   return (
     <DashboardShell role="Teacher" title="Your classroom" intro={D} nav={nav}>
-      <div id="overview" className="grid scroll-mt-24 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div id="overview" className="grid scroll-mt-24 grid-cols-2 gap-4 xl:grid-cols-4">
         <StatCard icon={School} label="Classes" /><StatCard icon={Users} label="Students" />
         <StatCard icon={BookOpen} label="Lessons" /><StatCard icon={Languages} label="Languages in use" />
       </div>
