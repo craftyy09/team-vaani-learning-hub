@@ -1,7 +1,29 @@
+import { useEffect, useRef, useState } from "react";
 import type { LucideIcon } from "lucide-react";
 export type SidebarItem = { id: string; label: string; icon: LucideIcon };
 // Jump links within a dashboard page (in-page scrolling only).
 export function DashboardSidebar({ items, role }: { items: SidebarItem[]; role: string }) {
+  const navRef = useRef<HTMLElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  useEffect(() => {
+    const nav = navRef.current;
+    if (!nav) return;
+    const update = () => {
+      setCanScrollLeft(nav.scrollLeft > 1);
+      setCanScrollRight(nav.scrollLeft + nav.clientWidth < nav.scrollWidth - 1);
+    };
+    update();
+    nav.addEventListener("scroll", update, { passive: true });
+    const ro = new ResizeObserver(update);
+    ro.observe(nav);
+    return () => {
+      nav.removeEventListener("scroll", update);
+      ro.disconnect();
+    };
+  }, []);
+
   return (
     <>
       <aside className="sticky top-20 hidden h-fit w-56 shrink-0 rounded-2xl bg-sidebar p-3 text-sidebar-foreground lg:block" aria-label={`${role} sections`}>
@@ -13,12 +35,13 @@ export function DashboardSidebar({ items, role }: { items: SidebarItem[]; role: 
         </ul>
       </aside>
       <div className="relative -mx-4 mb-6 lg:hidden">
-        <nav className="overflow-x-auto px-4" aria-label={`${role} sections`}>
+        <nav ref={navRef} className="overflow-x-auto px-4" aria-label={`${role} sections`}>
           <ul className="flex w-max gap-2">
             {items.map((i) => <li key={i.id}><a href={`#${i.id}`} className="flex min-h-11 items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-sm"><i.icon className="h-3.5 w-3.5" />{i.label}</a></li>)}
           </ul>
         </nav>
-        <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-background to-transparent" />
+        {canScrollRight && <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-background to-transparent" />}
+        {canScrollLeft && <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-background to-transparent" />}
       </div>
     </>
   );
